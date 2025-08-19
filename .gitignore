@@ -1,0 +1,15 @@
+# Laravel
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+.env
+
+# Angular
+**/node_modules
+/dist
+
+# Others
+.idea
+.vscode
+.DS_Store

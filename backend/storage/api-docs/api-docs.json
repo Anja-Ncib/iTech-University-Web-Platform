@@ -1,0 +1,758 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "StageDKSOFT API",
+        "description": "Swagger documentation for the Teachers API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local server"
+        }
+    ],
+    "paths": {
+        "/api/teachers": {
+            "get": {
+                "tags": [
+                    "Teachers"
+                ],
+                "summary": "List teachers.",
+                "operationId": "teachers.index",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Teacher"
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Teachers"
+                ],
+                "operationId": "teachers.store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "cin",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "cin": {
+                                        "type": "string",
+                                        "example": "11223344"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "sara.mhamdi@example.com"
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "12345678"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "1993-08-15"
+                                    },
+                                    "cv": {
+                                        "description": "PDF/DOC",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "translations[fr][first_name]": {
+                                        "type": "string",
+                                        "example": "Sara"
+                                    },
+                                    "translations[fr][last_name]": {
+                                        "type": "string",
+                                        "example": "Mhamdi"
+                                    },
+                                    "translations[fr][address]": {
+                                        "type": "string",
+                                        "example": "Tunis"
+                                    },
+                                    "translations[fr][grad]": {
+                                        "type": "string",
+                                        "example": "Professeur"
+                                    },
+                                    "translations[fr][department]": {
+                                        "type": "string",
+                                        "example": "IA"
+                                    },
+                                    "translations[en][first_name]": {
+                                        "type": "string",
+                                        "example": "Sara"
+                                    },
+                                    "translations[en][last_name]": {
+                                        "type": "string",
+                                        "example": "Mhamdi"
+                                    },
+                                    "translations[en][address]": {
+                                        "type": "string",
+                                        "example": "Tunis"
+                                    },
+                                    "translations[en][grad]": {
+                                        "type": "string",
+                                        "example": "Professor"
+                                    },
+                                    "translations[en][department]": {
+                                        "type": "string",
+                                        "example": "AI"
+                                    },
+                                    "translations[ar][first_name]": {
+                                        "type": "string",
+                                        "example": "سارة"
+                                    },
+                                    "translations[ar][last_name]": {
+                                        "type": "string",
+                                        "example": "محمدي"
+                                    },
+                                    "translations[ar][address]": {
+                                        "type": "string",
+                                        "example": "تونس"
+                                    },
+                                    "translations[ar][grad]": {
+                                        "type": "string",
+                                        "example": "أستاذ"
+                                    },
+                                    "translations[ar][department]": {
+                                        "type": "string",
+                                        "example": "ذكاء اصطناعي"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Teacher"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/teachers/{id}": {
+            "get": {
+                "tags": [
+                    "Teachers"
+                ],
+                "summary": "Get a teacher by ID.",
+                "operationId": "teachers.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Teacher ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Teacher"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Teachers"
+                ],
+                "summary": "Update a teacher.",
+                "operationId": "teachers.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "cin": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "phone_number": {
+                                        "type": "string"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "cv": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "translations[fr][first_name]": {
+                                        "type": "string"
+                                    },
+                                    "translations[fr][last_name]": {
+                                        "type": "string"
+                                    },
+                                    "translations[fr][address]": {
+                                        "type": "string"
+                                    },
+                                    "translations[fr][grad]": {
+                                        "type": "string"
+                                    },
+                                    "translations[fr][department]": {
+                                        "type": "string"
+                                    },
+                                    "translations[en][first_name]": {
+                                        "type": "string"
+                                    },
+                                    "translations[en][last_name]": {
+                                        "type": "string"
+                                    },
+                                    "translations[en][address]": {
+                                        "type": "string"
+                                    },
+                                    "translations[en][grad]": {
+                                        "type": "string"
+                                    },
+                                    "translations[en][department]": {
+                                        "type": "string"
+                                    },
+                                    "translations[ar][first_name]": {
+                                        "type": "string"
+                                    },
+                                    "translations[ar][last_name]": {
+                                        "type": "string"
+                                    },
+                                    "translations[ar][address]": {
+                                        "type": "string"
+                                    },
+                                    "translations[ar][grad]": {
+                                        "type": "string"
+                                    },
+                                    "translations[ar][department]": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Teacher"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Teachers"
+                ],
+                "summary": "Delete (soft delete) a teacher.",
+                "operationId": "teachers.destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deleted successfully"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "nullable": true
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        },
+        "/api/teachers/{id}/pdf/{lang}": {
+            "get": {
+                "tags": [
+                    "Teachers"
+                ],
+                "summary": "Generate teacher PDF (localized).",
+                "operationId": "teachers.pdf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "lang",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "fr",
+                                "en"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PDF stream",
+                        "content": {
+                            "application/pdf": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        },
+        "/api/teachers/{id}/cv": {
+            "get": {
+                "tags": [
+                    "Teachers"
+                ],
+                "summary": "Download teacher CV file.",
+                "operationId": "teachers.downloadCv",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File stream",
+                        "content": {
+                            "application/octet-stream": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "File or teacher not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "TeacherTranslation": {
+                "properties": {
+                    "language_code": {
+                        "type": "string",
+                        "enum": [
+                            "fr",
+                            "en",
+                            "ar"
+                        ]
+                    },
+                    "first_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "address": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "grad": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "department": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Teacher": {
+                "required": [
+                    "id",
+                    "cin",
+                    "email"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "cin": {
+                        "type": "string",
+                        "example": "11223344"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "sara.mhamdi@example.com"
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "example": "12345678",
+                        "nullable": true
+                    },
+                    "birth_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "1993-08-15",
+                        "nullable": true
+                    },
+                    "cv": {
+                        "type": "string",
+                        "example": "teachers/cv/abc123.pdf",
+                        "nullable": true
+                    },
+                    "translations": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TeacherTranslation"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "TeacherTranslationInput": {
+                "properties": {
+                    "first_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "address": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "grad": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "department": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "TeacherCreateBody": {
+                "required": [
+                    "cin",
+                    "email"
+                ],
+                "properties": {
+                    "cin": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "birth_date": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "cv": {
+                        "type": "string",
+                        "format": "binary",
+                        "nullable": true
+                    },
+                    "translations": {
+                        "properties": {
+                            "fr": {
+                                "$ref": "#/components/schemas/TeacherTranslationInput"
+                            },
+                            "en": {
+                                "$ref": "#/components/schemas/TeacherTranslationInput"
+                            },
+                            "ar": {
+                                "$ref": "#/components/schemas/TeacherTranslationInput"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "TeacherUpdateBody": {
+                "properties": {
+                    "cin": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "birth_date": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "cv": {
+                        "type": "string",
+                        "format": "binary",
+                        "nullable": true
+                    },
+                    "translations": {
+                        "properties": {
+                            "fr": {
+                                "$ref": "#/components/schemas/TeacherTranslationInput"
+                            },
+                            "en": {
+                                "$ref": "#/components/schemas/TeacherTranslationInput"
+                            },
+                            "ar": {
+                                "$ref": "#/components/schemas/TeacherTranslationInput"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "ApiError": {
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "errors": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "schema": "Schemas",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Schemas": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Teachers",
+            "description": "Endpoints for managing teachers"
+        }
+    ]
+}
