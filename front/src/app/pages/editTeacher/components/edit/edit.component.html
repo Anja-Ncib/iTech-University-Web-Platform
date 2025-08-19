@@ -1,0 +1,356 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4">
+  <div class="max-w-4xl mx-auto">
+    <!-- Back Button -->
+    <div class="mb-6">
+      <button
+        (click)="goBack()"
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-[#073D86] bg-white border border-[#073D86]/20 rounded-lg hover:bg-[#073D86] hover:text-white transition-all duration-200 shadow-sm hover:shadow-md"
+      >
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        {{ 'back-button' | translate }}
+      </button>
+    </div>
+
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-[#073D86] to-[#2C5A96] rounded-full mb-4">
+        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+        </svg>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold text-[#073D86] mb-2">
+        {{ 'edit-teacher-title' | translate }}
+      </h1>
+      <p class="text-slate-600 text-lg">{{ 'edit-teacher-soustitre' | translate }}</p>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-white rounded-2xl shadow-xl border border-slate-200/50 overflow-hidden">
+      <div class="bg-gradient-to-r from-[#073D86] to-[#2C5A96] px-8 py-6">
+        <h2 class="text-xl font-semibold text-white">{{ 'edit-section-title' | translate }}</h2>
+        <p class="text-blue-100 mt-1">{{ 'edit-section-soustitre' | translate }}</p>
+      </div>
+
+      <form [formGroup]="teacherForm" (ngSubmit)="onSubmit()" class="p-8 space-y-8">
+
+        <!-- Read-Only Information -->
+        <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+          <div class="flex items-center mb-4">
+            <div class="w-8 h-8 bg-slate-400 rounded-full flex items-center justify-center mr-3">
+              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-slate-700">{{ 'edit-readonly' | translate }}</h3>
+          </div>
+          <p class="text-sm text-slate-600 mb-6">{{ 'edit-readonly-description' | translate }}</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="space-y-2">
+              <label class="block text-sm font-semibold text-slate-600 mb-2">{{ 'cin-field' | translate }}</label>
+              <div class="w-full border-2 border-slate-200 bg-slate-100 rounded-xl px-4 py-3 text-slate-700">
+                {{ teacher?.cin }}
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm font-semibold text-slate-600 mb-2">{{ 'edit-teacher-last-name' | translate }}</label>
+              <div class="w-full border-2 border-slate-200 bg-slate-100 rounded-xl px-4 py-3 text-slate-700">
+                {{ teacher?.last_name }}
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm font-semibold text-slate-600 mb-2">{{ 'edit-teacher-first-name' | translate }}</label>
+              <div class="w-full border-2 border-slate-200 bg-slate-100 rounded-xl px-4 py-3 text-slate-700">
+                {{ teacher?.first_name }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Editable Information (SINGLE card for all editable fields) -->
+        <div class="bg-gradient-to-r from-[#00A099]/5 to-[#2C5A96]/5 rounded-xl p-6 border border-[#00A099]/20">
+          <div class="flex items-center mb-4">
+            <div class="w-8 h-8 bg-gradient-to-r from-[#00A099] to-[#2C5A96] rounded-full flex items-center justify-center mr-3">
+              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-[#073D86]">{{ 'edit-editable' | translate }}</h3>
+          </div>
+          <p class="text-sm text-slate-600 mb-6">{{ 'edit-editable-description' | translate }}</p>
+
+          <div class="space-y-6">
+
+            <!-- Translations wrapper -->
+            <div formGroupName="translations" class="space-y-6">
+              <!-- Address FR -->
+              <div class="space-y-2" formGroupName="fr">
+                <label class="block text-sm font-semibold text-slate-600 mb-2">{{ 'address-field-fr' | translate }}</label>
+                <input
+                  formControlName="address"
+                  type="text"
+                  [placeholder]="teacher?.address_fr || ''"
+                  class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[#00A099] focus:ring-4 focus:ring-[#00A099]/10 bg-white"
+                />
+              </div>
+
+              <!-- Address EN -->
+              <div class="space-y-2" formGroupName="en">
+                <label class="block text-sm font-semibold text-slate-600 mb-2">{{ 'address-field' | translate }}</label>
+                <input
+                  formControlName="address"
+                  type="text"
+                  [placeholder]="teacher?.address || ''"
+                  class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[#00A099] focus:ring-4 focus:ring-[#00A099]/10 bg-white"
+                />
+              </div>
+
+              <!-- Address AR -->
+              <div class="space-y-2" formGroupName="ar">
+                <label class="block text-sm font-semibold text-slate-600 mb-2">{{ 'address-field-ar' | translate }}</label>
+                <input
+                  formControlName="address"
+                  type="text"
+                  [placeholder]="teacher?.address_ar || ''"
+                  class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[#00A099] focus:ring-4 focus:ring-[#00A099]/10 bg-white"
+                />
+              </div>
+
+              <!-- AR names -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6" formGroupName="ar">
+                <div class="space-y-2">
+                  <label class="block text-sm font-semibold text-slate-600 mb-2">{{ 'last-name-field-ar' | translate }}</label>
+                  <input
+                    formControlName="last_name"
+                    type="text"
+                    [placeholder]="teacher?.last_name_ar || ''"
+                    class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[#00A099] focus:ring-4 focus:ring-[#00A099]/10 bg-white"
+                  />
+                </div>
+                <div class="space-y-2">
+                  <label class="block text-sm font-semibold text-slate-600 mb-2">{{ 'first-name-field-ar' | translate }}</label>
+                  <input
+                    formControlName="first_name"
+                    type="text"
+                    [placeholder]="teacher?.first_name_ar || ''"
+                    class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[#00A099] focus:ring-4 focus:ring-[#00A099]/10 bg-white"
+                  />
+                </div>
+              </div>
+            </div>
+            <!-- /translations -->
+
+            <!-- Same card, OUTSIDE translations group to avoid path errors -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <!-- Grad (bind to current language control) -->
+              <div class="space-y-2">
+                <label class="block text-sm font-semibold text-[#073D86] mb-2">{{ 'grad-field' | translate }}</label>
+                <div class="relative">
+                  <select
+                    (change)="onGradSelected($event)"
+                    [formControl]="teacherForm.get(['translations', currentLang, 'grad'])"
+                    class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-700 focus:outline-none focus:border-[#00A099] focus:ring-4 focus:ring-[#00A099]/10 appearance-none bg-white"
+                  >
+                    <option *ngFor="let g of gradOptions" [value]="g.labels[currentLang]">
+                      {{ g.labels[currentLang] }}
+                    </option>
+                  </select>
+                  <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Department (bind to current language control) -->
+              <div class="space-y-2">
+                <label class="block text-sm font-semibold text-[#073D86] mb-2">{{ 'department-field' | translate }}</label>
+                <div class="relative">
+                  <select
+                    (change)="onDepartmentSelected($event)"
+                    [formControl]="teacherForm.get(['translations', currentLang, 'department'])"
+                    class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-700 focus:outline-none focus:border-[#00A099] focus:ring-4 focus:ring-[#00A099]/10 appearance-none bg-white"
+                  >
+                    <option *ngFor="let d of deptOptions" [value]="d.labels[currentLang]">
+                      {{ d.labels[currentLang] }}
+                    </option>
+                  </select>
+                  <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Phone (root control; same styling as others) -->
+              <div class="space-y-2">
+                <label class="block text-sm font-semibold text-[#073D86] mb-2">{{ 'phone-field' | translate }}</label>
+                <div class="relative">
+                  <input
+                    formControlName="phone_number"
+                    type="text"
+                    [placeholder]="teacher?.phone_number || ''"
+                    class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 pl-12 text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[#00A099] focus:ring-4 focus:ring-[#00A099]/10 bg-white"
+                  />
+                  <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+                    <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                    </svg>
+                  </div>
+                </div>
+                <div *ngIf="teacherForm.get('phone_number')?.errors?.['invalidCharacters']" class="flex items-center text-red-600 text-sm mt-1">
+                  <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                  </svg>
+                  {{ 'phone-error-character' | translate }}
+                </div>
+                <div *ngIf="teacherForm.get('phone_number')?.errors?.['invalidLength']" class="flex items-center text-red-600 text-sm mt-1">
+                  <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                  </svg>
+                  {{ 'phone-error-length' | translate }}
+                </div>
+              </div>
+            </div>
+            <!-- /grid -->
+          </div>
+        </div>
+
+        <!-- CV Upload Section (unchanged UI rules you already use) -->
+         <!-- CV Upload Section -->
+<div class="bg-gradient-to-r from-[#2C5A96]/5 to-[#073D86]/5 rounded-xl p-6 border border-[#2C5A96]/20">
+  <div class="flex items-center mb-4">
+    <div class="w-8 h-8 bg-gradient-to-r from-[#2C5A96] to-[#073D86] rounded-full flex items-center justify-center mr-3">
+      <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      </svg>
+    </div>
+    <h3 class="text-lg font-semibold text-[#073D86]">{{ 'upload-section' | translate }}</h3>
+  </div>
+
+  <!-- Hidden input (NO formControlName) -->
+  <input
+    #fileInput
+    id="cv"
+    type="file"
+    accept=".pdf,.doc,.docx"
+    class="hidden"
+    (change)="onFileSelected($event)"
+  />
+
+  <!-- When NO file selected -->
+  <div
+    *ngIf="!selectedFile"
+    class="w-full border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-[#00A099] hover:bg-[#00A099]/5 transition-all duration-200 cursor-pointer"
+    (click)="fileInput.value=''; fileInput.click()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+    [ngClass]="{ 'border-[#00A099]': isDragOver, 'bg-[#00A099]/10': isDragOver }"
+  >
+    <div class="flex justify-center">
+      <div class="w-12 h-12 bg-gradient-to-r from-[#073D86] to-[#2C5A96] rounded-full flex items-center justify-center">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+        </svg>
+      </div>
+    </div>
+    <p class="mt-3 text-sm font-medium text-[#073D86]">{{ 'edit-cv-replace' | translate }}</p>
+    <p class="text-xs text-slate-600 mb-3">{{ 'upload' | translate }}</p>
+    <div class="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-[#00A099] to-[#2C5A96] text-white text-xs font-medium rounded-lg">
+      <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+      </svg>
+      {{ 'upload-button' | translate }}
+    </div>
+    <p class="text-xs text-slate-500 mt-2">{{ 'upload-format' | translate }}</p>
+  </div>
+
+  <!-- When a file IS selected: success badge, title, chip, "choose another" -->
+  <div *ngIf="selectedFile" class="text-center">
+    <div class="flex justify-center">
+      <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-teal-500 to-blue-700 flex items-center justify-center">
+        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      </div>
+    </div>
+    <p class="mt-3 text-xl font-semibold text-[#0E3E78]">
+      {{ 'file-selected' | translate }}
+    </p>
+
+    <!-- File chip -->
+    <div class="mt-4 inline-flex items-center bg-white border border-slate-200 rounded-xl px-3 py-2 shadow-sm">
+      <svg class="w-5 h-5 text-teal-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+      </svg>
+      <div class="text-left">
+        <p class="text-sm font-medium text-slate-900 truncate max-w-[220px]">
+          {{ selectedFile?.name }}
+        </p>
+        <p class="text-xs text-slate-500">{{ formatFileSize(selectedFile?.size || 0) }}</p>
+      </div>
+      <button
+        type="button"
+        (click)="removeFile($event)"
+        class="ml-3 text-red-500 hover:text-red-700 transition-colors duration-200"
+        aria-label="remove file"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Choose another -->
+    <div class="mt-3">
+      <button
+        type="button"
+        (click)="fileInput.value=''; fileInput.click()"
+        class="text-sm text-teal-600 hover:text-teal-700 font-medium"
+      >
+        {{ 'upload-other' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Errors (kept on the cv control only as an error holder) -->
+  <div *ngIf="teacherForm.get('cv')?.errors?.['invalidFileType']" class="flex items-center text-red-600 text-sm mt-3">
+    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+    </svg>
+    {{ 'upload-format-error' | translate }}
+  </div>
+  <div *ngIf="teacherForm.get('cv')?.errors?.['fileSizeExceeded']" class="flex items-center text-red-600 text-sm mt-1">
+    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+    </svg>
+    {{ 'upload-size-error' | translate }}
+  </div>
+</div>
+
+        <!-- ... keep your upload section here ... -->
+
+        <!-- Submit -->
+        <div class="flex justify-center pt-6">
+          <button
+            type="submit"
+            class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#00A099] to-[#2C5A96] text-white font-semibold rounded-xl hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-4 focus:ring-[#00A099]/20 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            [disabled]="loading"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            </svg>
+            {{ 'edit-button' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

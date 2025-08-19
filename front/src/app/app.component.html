@@ -1,0 +1,11 @@
+<div class="flex h-screen">
+<app-side-bar></app-side-bar>
+
+  <div class="flex-1 flex flex-col">
+    <app-header class="max-w-screen"></app-header>
+    <main class="p-6 overflow-y-auto flex-1 max-w-screen">
+      <router-outlet></router-outlet>
+      <app-toast-container></app-toast-container>
+    </main>
+  </div>
+</div>
